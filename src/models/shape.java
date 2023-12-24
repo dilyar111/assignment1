@@ -5,32 +5,37 @@ import java.util.ArrayList;
 public class Shape {
     private ArrayList<Point> points = new ArrayList<Point>();
     private int size;
-    public void addPoint(Point a){
+
+    public void addPoint(Point a) {
         points.add(a);
         size++;
     }
 
-    public double calculatePerimeter(){
-        double res = 0;
-        res = points.get(0).distance(points.get(size - 1));
-        Point prev = points.get(0);
-        for(int i = 1; i < size; i++){
-            res += prev.distance(points.get(i));
-            prev = points.get(i);
+    public double calculatePerimeter() {
+        double perimeter = 0;
+        for (int i = 0; i < size - 1; i++) {
+            perimeter += points.get(i).distance(points.get(i + 1));
         }
-        return res;
+        perimeter += points.get(size - 1).distance(points.get(0));
+        return perimeter;
     }
-    public double getLongest(){
-        double res = 0;
-        Point prev = points.get(0);
-        res = prev.distance(points.get(size - 1));
-        for(int i = 1; i < size; i++){
-            res = Math.max(res,prev.distance(points.get(i)));
-            prev = points.get(i);
+
+    public double getLongestSide() {
+        double longestSide = 0;
+        for (int i = 0; i < size - 1; i++) {
+            double sideLength = points.get(i).distance(points.get(i + 1));
+            if (sideLength > longestSide) {
+                longestSide = sideLength;
+            }
         }
-        return res;
+        double lastSideLength = points.get(size - 1).distance(points.get(0));
+        if (lastSideLength > longestSide) {
+            longestSide = lastSideLength;
+        }
+        return longestSide;
     }
-    public double getAverageSide(){
-        return calculatePerimeter()/size;
+
+    public double getAverageSideLength() {
+        return calculatePerimeter() / size;
     }
 }
